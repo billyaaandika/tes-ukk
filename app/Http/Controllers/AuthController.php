@@ -33,10 +33,9 @@ class AuthController extends Controller
             } elseif ($role === 'officer') {
                 return redirect()->route('officer.dashboard')
                     ->with('success', 'Selamat Datang Officer!');
-            } else {
-                // User biasa - redirect ke login untuk sekarang
-                return redirect('/login')
-                    ->with('error', 'Akses ditolak untuk user biasa');
+            } elseif ($role === 'user') {
+                return redirect()->route('user.dashboard')
+                    ->with('success', 'Selamat Datang User!');
             }
         }
 

@@ -16,7 +16,7 @@
 
     <table class="table table-bordered">
         <thead>
-            <tr>
+            <tr> 
                 <th>No</th>
                 <th>Peminjam</th>
                 <th>Alat</th>
@@ -29,8 +29,8 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $item->user->name }}</td>
-                <td>{{ $item->tool->nama_alat }}</td>
-                <td>{{ $item->tanggal_pinjam }}</td>
+                <td>{{ $item->tool->name_tool }}</td>
+                <td>{{ $item->borrowed_at->format('d-m-Y') }}</td>
                 <td>{{ $item->status }}</td>
             </tr>
             @endforeach

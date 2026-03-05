@@ -57,7 +57,7 @@
                             <td>{{ $borrowing->user->name ?? '-' }}</td>
                             <td>{{ $borrowing->tool->name_tool ?? '-' }}</td>
                             <td>{{ $borrowing->borrowed_at }}</td>
-                            <td>{{ $borrowing->return_at }}</td>
+                            <td>{{ $borrowing->returned_at }}</td>
 
                             <td class="text-center">
                                 {{-- APPROVE --}}

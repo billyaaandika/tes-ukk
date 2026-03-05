@@ -21,7 +21,7 @@ class BorrowingController extends Controller
 
     public function officerIndex()
     {
-        $borrowings = Borrowing::where('approved_by', Auth::id())->paginate(10);
+        $borrowings = Borrowing::paginate(10);
         return view('officer.borrowings.index', compact('borrowings'));
     }
 
@@ -96,5 +96,27 @@ class BorrowingController extends Controller
         //
         $borrowing->delete();
         return redirect()->route('admin.borrowings.index')->with('success', 'Peminjaman berhasil dihapus.');
+    }
+
+    public function officerApprove($id)
+    {
+        $borrowing = Borrowing::findOrFail($id);
+        $borrowing->approval_status = 'approved';
+        $borrowing->approved_by = Auth::id();
+        $borrowing->save();
+
+        return redirect()->route('officer.borrowings.index')
+            ->with('success', 'Peminjaman berhasil disetujui.');
+    }
+
+    public function officerReject($id)
+    {
+        $borrowing = Borrowing::findOrFail($id);
+        $borrowing->approval_status = 'rejected';
+        $borrowing->approved_by = Auth::id();
+        $borrowing->save();
+
+        return redirect()->route('officer.borrowings.index')
+            ->with('success', 'Peminjaman berhasil ditolak.');
     }
 }

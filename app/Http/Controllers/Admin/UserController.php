@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Borrowing;
+use App\Models\Tool;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -72,5 +75,65 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.index')
             ->with('success', 'User deleted successfully.');
+    }
+
+    public function borrowingsList()
+    {
+        $user = User::findOrFail(Auth::id());
+        $borrowings = $user->borrowings()->with('tool')->latest()->paginate(10);
+        return view('users.borrowing_list', compact('user', 'borrowings'));
+    }
+
+    public function borrowingscreate()
+    {
+        $tools = Tool::get();
+        return view('users.borrowing_create', compact('tools'));
+    }
+
+    public function borrowingsstore(Request $request)
+    {
+        $request->validate([
+            'tool_id' => 'required|exists:tools,id',
+            'borrowed_at' => 'required|date',
+            'return_plan' => 'required|date|after_or_equal:borrowed_at',
+            'description' => 'nullable|string',
+        ]);
+
+        Borrowing::create([
+            'user_id' => Auth::id(),
+            'tool_id' => $request->tool_id,
+            'borrowed_at' => $request->borrowed_at,
+            'return_plan' => $request->return_plan,
+            'description' => $request->description,
+            'status' => 'borrowed',
+            'approval_status' => 'pending',
+            'approved_by' => null,
+        ]);
+
+        return redirect()->route('user.borrowings_list')
+            ->with('success', 'Peminjaman berhasil diajukan!');
+    }
+
+    public function borrowingcancel($id)
+    {
+        $borrowing = Borrowing::findOrFail($id);
+        if ($borrowing->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+        $borrowing->delete();
+        return redirect()->route('user.borrowings_list')->with('success', 'Peminjaman berhasil dibatalkan.');
+    }
+
+    public function borrowingreturn($id)
+    {
+        $borrowing = Borrowing::findOrFail($id);
+        if ($borrowing->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+        $borrowing->status = 'returned';
+        $borrowing->returned_at = now();
+        $borrowing->save();
+
+        return redirect()->route('user.borrowings_list')->with('success', 'Peminjaman berhasil dikembalikan.');
     }
 }

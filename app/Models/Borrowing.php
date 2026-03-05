@@ -13,13 +13,17 @@ class Borrowing extends Model
         'tool_id',
         'borrowed_at',
         'returned_at',
+        'return_plan',
+        'description',
         'status',
+        'approval_status',
         'approved_by',
     ];
 
     protected $casts = [
         'borrowed_at' => 'date',
         'returned_at' => 'date',
+        'return_plan' => 'date',
     ];
 
     /**

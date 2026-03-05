@@ -24,4 +24,10 @@ class DashboardController extends Controller
 
     return view('officer.dashboard', compact('totalUsers', 'totalCategories', 'totalTools', 'recentLogs'));
    }
+
+   public function userIndex()
+   {
+    $totalTools = Tool::get();
+    return view('users.dashboard', compact('totalTools'));
+   }
 }

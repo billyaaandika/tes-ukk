@@ -114,17 +114,6 @@
         
 
                 <li class="nav-item">
-                    <a class="nav-link text-dark {{ request()->routeIs('officer.returns.index') ? 'active' : 'text-dark' }}"
-                        href="{{ route('officer.returns.index') }}">
-                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2">
-                            <i class="ni ni-tv-2 text-dark opacity-10"></i> <!-- dashboard icon -->
-                        </div>
-                        <span class="nav-link-text ms-1">Data Pengembalian</span>
-                    </a>
-                </li>
-        
-
-                <li class="nav-item">
                     <a class="nav-link text-dark {{ request()->routeIs('officer.laporan.index') ? 'active' : 'text-dark' }}"
                         href="{{ route('officer.laporan.index') }}">
                         <div class="icon icon-shape icon-sm border-radius-md text-center me-2">
@@ -134,6 +123,28 @@
                     </a>
                 </li>
                 @endif
+
+                @if (auth()->user()->role == 'user')
+                <li class="nav-item">
+                    <a class="nav-link text-dark {{ request()->routeIs('user.dashboard') ? 'active' : 'text-dark' }}"
+                        href="{{ route('user.dashboard') }}">
+                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2">
+                            <i class="ni ni-tv-2 text-dark opacity-10"></i> <!-- dashboard icon -->
+                        </div>
+                        <span class="nav-link-text ms-1">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-dark {{ request()->routeIs('user.borrowings.list') ? 'active' : 'text-dark' }}"    
+                        href="{{ route('user.borrowings.list') }}">
+                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2">
+                            <i class="ni ni-tv-2 text-dark opacity-10"></i> <!-- dashboard icon -->
+                        </div>
+                        <span class="nav-link-text ms-1">Daftar Peminjaman</span>
+                </li>
+                @endif
+
 
                    <!-- LOGOUT -->
                 <li class="nav-item mt-2 sidenav-footer position-absolute w-100 bottom-0 ">

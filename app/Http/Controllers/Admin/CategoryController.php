@@ -35,9 +35,11 @@ class CategoryController extends Controller
         //
         $request->validate([
             'name_category' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
         ]);
         Category::create([
             'name_category' => $request->name_category,
+            'description' => $request->description,
         ]);
 
         return redirect()->route('admin.category.index')->with('success', 'Kategori berhasil ditambahkan.');

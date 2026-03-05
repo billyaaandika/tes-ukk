@@ -32,8 +32,8 @@
     <tr>
         <td>{{ $loop->iteration }}</td>
         <td>{{ $item->user->name }}</td>
-        <td>{{ $item->tool->nama_alat }}</td>
-        <td>{{ $item->tanggal_pinjam }}</td>
+        <td>{{ $item->tool->name_tool }}</td>
+        <td>{{ $item->borrowed_at->format('d-m-Y') }}</td>
         <td>{{ $item->status }}</td>
     </tr>
     @endforeach
